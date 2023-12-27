@@ -1,0 +1,57 @@
+@model LeaseVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Lease</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LeaseVmodel.ApartmentId" class="control-label"></label>
+                <select asp-for="LeaseVmodel.ApartmentId" class ="form-control" asp-items="Model.AppartmentList"></select>
+                <span asp-validation-for="LeaseVmodel.ApartmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaseVmodel.AppUserId" class="control-label"></label>
+                <select asp-for="LeaseVmodel.AppUserId" class ="form-control" asp-items="Model.UserSelectList"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaseVmodel.StartDate" class="control-label"></label>
+                <input asp-for="LeaseVmodel.StartDate" class="form-control" />
+                <span asp-validation-for="LeaseVmodel.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaseVmodel.EndDate" class="control-label"></label>
+                <input asp-for="LeaseVmodel.EndDate" class="form-control" />
+                <span asp-validation-for="LeaseVmodel.EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaseVmodel.MonthlyRent" class="control-label"></label>
+                <input asp-for="LeaseVmodel.MonthlyRent" class="form-control" />
+                <span asp-validation-for="LeaseVmodel.MonthlyRent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaseVmodel.ServicesIncluded" class="control-label"></label>
+                <input asp-for="LeaseVmodel.ServicesIncluded" class="form-control" />
+                <span asp-validation-for="LeaseVmodel.ServicesIncluded" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

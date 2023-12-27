@@ -1,0 +1,17 @@
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\bin\Debug\net7.0\DAL.EF.App.deps.json
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\bin\Debug\net7.0\DAL.EF.App.dll
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\bin\Debug\net7.0\DAL.EF.App.pdb
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\bin\Debug\net7.0\Domain.dll
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\bin\Debug\net7.0\Domain.pdb
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.csproj.AssemblyReference.cache
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.AssemblyInfoInputs.cache
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.AssemblyInfo.cs
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.csproj.CoreCompileInputs.cache
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.csproj.CopyComplete
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.dll
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\refint\DAL.EF.App.dll
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.pdb
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\ref\DAL.EF.App.dll
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\bin\Debug\net7.0\DAL.EF.App.runtimeconfig.json
+C:\Users\mihke\Desktop\code\icd0021-22-23-s-2\ExamMikoks\DAL.EF.App\obj\Debug\net7.0\DAL.EF.App.genruntimeconfig.cache

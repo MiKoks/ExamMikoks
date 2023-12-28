@@ -6,5 +6,6 @@ public class PropertyDTO : BaseEntity
 {
     public string Address { get; set; }
     public string? PictureUrl { get; set; }
-    
+
+    public ICollection<ApartmentDTO>? Apartments { get; set; }
 }

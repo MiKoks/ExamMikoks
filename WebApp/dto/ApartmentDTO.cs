@@ -4,7 +4,7 @@ namespace WebApp.dto;
 
 public class ApartmentDTO  : BaseEntity
 {
-    public Guid PropertyId { get; set; }
+    public Guid? PropertyId { get; set; }
     public PropertyDTO? Property { get; set; }
     public int FloorNumber { get; set; }
     public int RoomCount { get; set; }

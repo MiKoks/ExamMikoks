@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.EF.App;
 using Domain;
+using WebApp.dto;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -49,9 +51,18 @@ namespace WebApp.Controllers
         // GET: Apartment/Create
         public IActionResult Create()
         {
-            ViewData["CurrentLeaseId"] = new SelectList(_context.Leases, "Id", "ServicesIncluded");
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Address");
-            return View();
+            /*ViewData["CurrentLeaseId"] = new SelectList(_context.Leases, "Id", "ServicesIncluded");
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Address");*/
+            
+            var vm = new ApartmentViewModel();
+            vm.ApartmentVmodel = new Apartment();
+            vm.LeaseSelectList = new SelectList(_context.Leases,
+                nameof(vm.ApartmentVmodel.CurrentLease.Id),
+                nameof(vm.ApartmentVmodel.CurrentLease.Id));
+            vm.PropertySelectList = new SelectList(_context.Properties,
+                nameof(vm.ApartmentVmodel.Property.Id),
+                nameof(vm.ApartmentVmodel.Property.Address));
+            return View(vm);
         }
 
         // POST: Apartment/Create
@@ -59,24 +70,32 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PropertyId,FloorNumber,RoomCount,MonthlyRent,Status,CurrentLeaseId,Id")] Apartment apartment)
+        public async Task<IActionResult> Create( ApartmentViewModel apartment)
         {
             if (ModelState.IsValid)
             {
-                apartment.Id = Guid.NewGuid();
-                _context.Add(apartment);
+                apartment.ApartmentVmodel.Id = Guid.NewGuid();
+                _context.Add(apartment.ApartmentVmodel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CurrentLeaseId"] = new SelectList(_context.Leases, "Id", "ServicesIncluded", apartment.CurrentLeaseId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Address", apartment.PropertyId);
+            
+            apartment.LeaseSelectList = new SelectList(_context.Leases,
+                nameof(apartment.ApartmentVmodel.CurrentLease.Id),
+                nameof(apartment.ApartmentVmodel.CurrentLease.Id));
+            apartment.PropertySelectList = new SelectList(_context.Properties,
+                nameof(apartment.ApartmentVmodel.Property.Id),
+                nameof(apartment.ApartmentVmodel.Property.Address));
+            
+            /*ViewData["CurrentLeaseId"] = new SelectList(_context.Leases, "Id", "ServicesIncluded", apartment.CurrentLeaseId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Address", apartment.PropertyId);*/
             return View(apartment);
         }
 
         // GET: Apartment/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null || _context.Apartments == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -86,9 +105,17 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CurrentLeaseId"] = new SelectList(_context.Leases, "Id", "ServicesIncluded", apartment.CurrentLeaseId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Address", apartment.PropertyId);
-            return View(apartment);
+            /*ViewData["CurrentLeaseId"] = new SelectList(_context.Leases, "Id", "ServicesIncluded", apartment.CurrentLeaseId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Address", apartment.PropertyId);*/
+            var vm = new ApartmentViewModel();
+            vm.ApartmentVmodel = new Apartment();
+            vm.LeaseSelectList = new SelectList(_context.Leases,
+                nameof(vm.ApartmentVmodel.CurrentLease.Id),
+                nameof(vm.ApartmentVmodel.CurrentLease.Id));
+            vm.PropertySelectList = new SelectList(_context.Properties,
+                nameof(vm.ApartmentVmodel.Property.Id),
+                nameof(vm.ApartmentVmodel.Property.Address));
+            return View(vm);
         }
 
         // POST: Apartment/Edit/5
@@ -96,36 +123,33 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PropertyId,FloorNumber,RoomCount,MonthlyRent,Status,CurrentLeaseId,Id")] Apartment apartment)
+        public async Task<IActionResult> Edit(Guid id,  ApartmentViewModel apartment)
         {
-            if (id != apartment.Id)
+            if (id != apartment.ApartmentVmodel.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(apartment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ApartmentExists(apartment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Update(apartment.ApartmentVmodel);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CurrentLeaseId"] = new SelectList(_context.Leases, "Id", "ServicesIncluded", apartment.CurrentLeaseId);
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Address", apartment.PropertyId);
-            return View(apartment);
+            
+            var vm = new ApartmentViewModel();
+            vm.ApartmentVmodel = new Apartment();
+            vm.LeaseSelectList = new SelectList(_context.Leases,
+                nameof(vm.ApartmentVmodel.CurrentLease.Id),
+                nameof(vm.ApartmentVmodel.CurrentLease.Id));
+            vm.PropertySelectList = new SelectList(_context.Properties,
+                nameof(vm.ApartmentVmodel.Property.Id),
+                nameof(vm.ApartmentVmodel.Property.Address));
+            return View(vm);
+            
+            /*ViewData["CurrentLeaseId"] = new SelectList(_context.Leases, "Id", "ServicesIncluded", apartment.CurrentLeaseId);
+            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Address", apartment.PropertyId);*/
+            //return View(apartment);
         }
 
         // GET: Apartment/Delete/5

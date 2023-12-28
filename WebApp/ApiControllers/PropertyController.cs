@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.EF.App;
 using Domain;
+using WebApp.dto;
 
 namespace WebApp.ApiControllers
 {
@@ -23,13 +24,48 @@ namespace WebApp.ApiControllers
 
         // GET: api/Property
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
+        public async Task<ActionResult<IEnumerable<PropertyDTO>>> GetProperties()
         {
           if (_context.Properties == null)
           {
               return NotFound();
           }
-            return await _context.Properties.ToListAsync();
+
+          var res = await _context.Properties
+              .Include(x => x.Apartments!)
+              .ThenInclude(x => x.CurrentLease)
+              .ThenInclude(x => x!.AppUser)
+              .ToListAsync();
+          
+          return Ok(res.Select(x => new PropertyDTO
+          {
+              Id = x.Id,
+              Address = x.Address,
+              PictureUrl = x.PictureUrl,
+              Apartments = x.Apartments!.Select(a => new ApartmentDTO
+              {
+                  Id = a.Id,
+                  PropertyId = null,
+                  Property = null,
+                  FloorNumber = a.FloorNumber,
+                  RoomCount = a.RoomCount,
+                  MonthlyRent = a.MonthlyRent,
+                  Status = a.Status,
+                  CurrentLeaseId = a.CurrentLeaseId,
+                  CurrentLease = a.CurrentLease == null ? null : new LeaseDTO
+                  {
+                      Id = a.CurrentLease!.Id,
+                      ApartmentId = a.CurrentLease.ApartmentId,
+                      AppUserId = a.CurrentLease.AppUserId,
+                      AppUser = a.CurrentLease.AppUser,
+                      StartDate = a.CurrentLease.StartDate,
+                      EndDate = a.CurrentLease.EndDate,
+                      MonthlyRent = a.CurrentLease.MonthlyRent,
+                      ServicesIncluded = a.CurrentLease.ServicesIncluded,
+                      LeaseServices = a.CurrentLease.LeaseServices!
+                  },
+              }).ToList()
+          }));
         }
 
         // GET: api/Property/5

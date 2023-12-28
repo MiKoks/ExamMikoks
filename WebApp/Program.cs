@@ -1,5 +1,6 @@
 using System.Text;
 using DAL.EF.App;
+using DAL.EF.App.Seeding;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,8 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+SetUpAppData(app, app.Environment, app.Configuration);
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -74,4 +77,61 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
 app.Run();
+
+static void SetUpAppData(IApplicationBuilder app, IWebHostEnvironment environment, IConfiguration configuration)
+{
+    using var serviceScope = app.ApplicationServices
+        .GetRequiredService<IServiceScopeFactory>()
+        .CreateScope();
+
+    using var context = serviceScope.ServiceProvider
+        .GetService<ApplicationDbContext>();
+
+    if (context == null)
+    {
+        throw new ApplicationException("Problem in services, Can't initialize DB Context");
+    }
+
+    using var userManager = serviceScope.ServiceProvider.GetService<UserManager<AppUser>>();
+    using var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<AppRole>>();
+
+
+    if (userManager == null || roleManager == null)
+    {
+        throw new ApplicationException("Problem in services, Can't initialize userManager or roleManager");
+    }
+
+
+    var logger = serviceScope.ServiceProvider
+        .GetService<ILogger<ApplicationBuilder>>();
+
+
+    if (logger == null)
+    {
+        throw new ApplicationException("Problem in services, Can't initialize logger");
+    }
+
+    if (configuration.GetValue<bool>("DataInit:DropDatabase"))
+    {
+        logger.LogWarning("Dropping database");
+        AppDataInit.DropDatabase(context);
+    }
+    
+    if (configuration.GetValue<bool>("DataInit:MigrateDatabase"))
+    {
+        logger.LogInformation("Migrating database");
+        AppDataInit.MigrateDatabase(context);
+    }
+
+    if (configuration.GetValue<bool>("DataInit:SeedIdentity"))
+    {
+        logger.LogInformation("Seeding identity");
+        AppDataInit.SeedIdentity(userManager, roleManager);
+    }
+}
+
+public partial class Program
+{
+}
